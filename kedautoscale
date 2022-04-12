@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: kafka-scaledobject
+  namespace: ppe
+spec:
+  scaleTargetRef:
+    name: deliveryservice
+  pollingInterval: 120  
+  triggers:
+  - type: kafka
+    metadata:
+      bootstrapServers: 10.110.120.21:9092,10.110.120.21:9092,10.110.120.21:9092
+      topic: test-topic
+      consumerGroup: console-consumer-test
+      lagThreshold: "500"
+      offsetResetPolicy: latest
+  maxReplicaCount: 10
+  minReplicaCount: 2
